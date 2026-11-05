@@ -11,7 +11,7 @@ Blog QAF with email/password registration, account profiles, and private member 
 
 The app has no external npm dependencies. Frontend files are in `public/`; the Node.js backend is `server.js`. User records and posts are stored in `data/qaf-blog.json`, which is intentionally excluded from Git. Passwords are stored as scrypt hashes. Session cookies are HttpOnly and SameSite, and sessions expire when the server restarts.
 
-After signing in, a user can set a display name and short bio in **Profil akun**. Posts and profile data are private to the signed-in account.
+After signing in, a user can set a display name, short bio, and profile photo in **Profil akun**. Profile photos support PNG, JPEG, and WebP files up to 2 MB. Posts and profile data are private to the signed-in account.
 
 ## Publish
 

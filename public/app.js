@@ -9,9 +9,19 @@
         var postsContainer=document.getElementById('my-posts');
         var currentUser=null;
         var registrationMode=false;
+        var pendingAvatar;
 
         function setStatus(element,message){
           element.textContent=message;
+        }
+
+        function renderAvatar(avatar,displayName,email){
+          var image=document.getElementById('profile-avatar-image');
+          var initials=document.getElementById('profile-avatar-initials');
+          initials.textContent=(displayName||email||'?').trim().slice(0,1).toUpperCase();
+          image.hidden=!avatar;
+          if(avatar) image.src=avatar;
+          else image.removeAttribute('src');
         }
 
         async function apiRequest(path,options){
@@ -61,6 +71,9 @@
           document.getElementById('profile-email').textContent=user.email;
           document.getElementById('profile-name').value=user.displayName||user.email.split('@')[0];
           document.getElementById('profile-bio').value=user.bio||'';
+          document.getElementById('profile-avatar-file').value='';
+          pendingAvatar=undefined;
+          renderAvatar(user.avatar,user.displayName,user.email);
           setStatus(profileStatus,'');
           try{
             await renderPosts();
@@ -69,6 +82,40 @@
             setStatus(accountStatus,error.message||'Tulisan tidak dapat dimuat.');
           }
         }
+
+        document.getElementById('profile-avatar-file').addEventListener('change',function(event){
+          var file=event.target.files[0];
+          if(!file) return;
+          if(!['image/png','image/jpeg','image/webp'].includes(file.type)){
+            event.target.value='';
+            setStatus(profileStatus,'Pilih gambar PNG, JPEG, atau WebP.');
+            return;
+          }
+          if(file.size>2*1024*1024){
+            event.target.value='';
+            setStatus(profileStatus,'Ukuran foto maksimal 2 MB.');
+            return;
+          }
+          var reader=new FileReader();
+          reader.addEventListener('load',function(){
+            pendingAvatar=reader.result;
+            renderAvatar(pendingAvatar,document.getElementById('profile-name').value,currentUser.email);
+            setStatus(profileStatus,'Pratinjau foto siap. Simpan profil untuk menerapkan perubahan.');
+          });
+          reader.addEventListener('error',function(){
+            event.target.value='';
+            setStatus(profileStatus,'Foto tidak dapat dibaca. Coba pilih file lain.');
+          });
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById('remove-avatar').addEventListener('click',function(){
+          if(!currentUser) return;
+          pendingAvatar=null;
+          document.getElementById('profile-avatar-file').value='';
+          renderAvatar(null,document.getElementById('profile-name').value,currentUser.email);
+          setStatus(profileStatus,'Foto akan dihapus setelah profil disimpan.');
+        });
 
         profileForm.addEventListener('submit',async function(event){
           event.preventDefault();
@@ -79,11 +126,15 @@
               method:'PATCH',
               body:JSON.stringify({
                 displayName:formData.get('displayName'),
-                bio:formData.get('bio')
+                bio:formData.get('bio'),
+                avatar:pendingAvatar===undefined?currentUser.avatar:pendingAvatar
               })
             });
             currentUser=result.user;
             document.getElementById('profile-email').textContent=currentUser.email;
+            pendingAvatar=undefined;
+            renderAvatar(currentUser.avatar,currentUser.displayName,currentUser.email);
+            document.getElementById('profile-avatar-file').value='';
             setStatus(profileStatus,'Profil berhasil disimpan.');
           }catch(error){
             setStatus(profileStatus,error.message||'Profil tidak dapat disimpan.');

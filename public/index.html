@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>QAF Blog – Quranic Action Forum UM Bandung</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="/styles.css">
+      <link rel="stylesheet" href="/styles.css?v=2">
 </head>
 <body>
   <header>
@@ -56,14 +56,22 @@
         <p id="account-status" class="account-status" role="status"></p>
         <div class="profile-card">
           <h3>Profil akun</h3>
+          <div class="profile-avatar" aria-label="Foto profil">
+            <img id="profile-avatar-image" alt="Foto profil" hidden>
+            <span id="profile-avatar-initials" aria-hidden="true"></span>
+          </div>
           <p class="meta">Email: <span id="profile-email"></span></p>
           <form id="profile-form" class="account-form">
+            <label for="profile-avatar-file">Foto profil</label>
+            <input id="profile-avatar-file" name="avatarFile" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="avatar-help">
+            <small id="avatar-help" class="meta">PNG, JPEG, atau WebP, maksimal 2 MB.</small>
             <label for="profile-name">Nama tampilan</label>
             <input id="profile-name" name="displayName" maxlength="80" required>
             <label for="profile-bio">Bio</label>
             <textarea id="profile-bio" name="bio" maxlength="300" rows="3"></textarea>
             <div class="account-actions">
               <button class="btn secondary" type="submit">Simpan profil</button>
+              <button id="remove-avatar" class="btn secondary" type="button">Hapus foto</button>
             </div>
           </form>
           <p id="profile-status" class="account-status" role="status" aria-live="polite"></p>
@@ -310,6 +318,6 @@
     </div>
   </footer>
 
-      <script src="/app.js" defer></script>
+      <script src="/app.js?v=2" defer></script>
 </body>
 </html>

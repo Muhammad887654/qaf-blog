@@ -45,7 +45,7 @@ function cookieHeader(value, maxAge) {
   return `${sessionCookie}=${encodeURIComponent(value)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${secure}`;
 }
 
-async function readBody(request) {
+async function readBody(request, maxBytes = 32 * 1024) {
   if (!request.headers['content-type']?.toLowerCase().startsWith('application/json')) {
     const error = new Error('Gunakan Content-Type application/json.');
     error.status = 415;
@@ -55,7 +55,7 @@ async function readBody(request) {
   let raw = '';
   for await (const chunk of request) {
     raw += chunk;
-    if (Buffer.byteLength(raw) > 32 * 1024) {
+    if (Buffer.byteLength(raw) > maxBytes) {
       const error = new Error('Ukuran permintaan terlalu besar.');
       error.status = 413;
       throw error;
@@ -118,8 +118,29 @@ function publicUser(user) {
     id: user.id,
     email: user.email,
     displayName: user.displayName || user.email.split('@')[0],
-    bio: user.bio || ''
+    bio: user.bio || '',
+    avatar: user.avatar || null
   };
+}
+
+function validProfileAvatar(avatar) {
+  if (avatar === null) return true;
+  if (typeof avatar !== 'string') return false;
+
+  const match = /^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/]+={0,2})$/.exec(avatar);
+  if (!match) return false;
+
+  const data = Buffer.from(match[2], 'base64');
+  if (data.length === 0 || data.length > 2 * 1024 * 1024 || data.toString('base64') !== match[2]) return false;
+  if (match[1] === 'image/png') {
+    return data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  }
+  if (match[1] === 'image/jpeg') {
+    return data.length >= 3 && data[0] === 255 && data[1] === 216 && data[2] === 255;
+  }
+  return data.length >= 12 &&
+    data.toString('ascii', 0, 4) === 'RIFF' &&
+    data.toString('ascii', 8, 12) === 'WEBP';
 }
 
 function sessionUser(request) {
@@ -223,14 +244,18 @@ async function api(request, response, pathname) {
     const userId = sessionUser(request);
     if (!userId) return sendJson(response, 401, { error: 'Silakan masuk terlebih dahulu.' });
 
-    const body = await readBody(request);
+    const body = await readBody(request, 3 * 1024 * 1024);
     const displayName = typeof body.displayName === 'string' ? body.displayName.trim() : '';
     const bio = typeof body.bio === 'string' ? body.bio.trim() : '';
+    const avatar = Object.hasOwn(body, 'avatar') ? body.avatar : undefined;
     if (!displayName || displayName.length > 80) {
       return sendJson(response, 400, { error: 'Nama tampilan wajib diisi (maksimal 80 karakter).' });
     }
     if (bio.length > 300) {
       return sendJson(response, 400, { error: 'Bio maksimal 300 karakter.' });
+    }
+    if (avatar !== undefined && !validProfileAvatar(avatar)) {
+      return sendJson(response, 400, { error: 'Foto profil harus berupa PNG, JPEG, atau WebP maksimal 2 MB.' });
     }
 
     const user = await updateDatabase((database) => {
@@ -238,6 +263,7 @@ async function api(request, response, pathname) {
       if (!account) return null;
       account.displayName = displayName;
       account.bio = bio;
+      if (avatar !== undefined) account.avatar = avatar;
       return publicUser(account);
     });
     if (!user) return sendJson(response, 401, { error: 'Akun tidak ditemukan. Silakan masuk kembali.' });
@@ -315,7 +341,7 @@ const server = http.createServer(async (request, response) => {
     const filePath = path.join(publicDirectory, fileName);
     const contentTypes = { 'index.html': 'text/html; charset=utf-8', 'styles.css': 'text/css; charset=utf-8', 'app.js': 'text/javascript; charset=utf-8' };
     const content = await fs.readFile(filePath);
-    response.writeHead(200, { 'Content-Type': contentTypes[fileName], 'Cache-Control': fileName === 'index.html' ? 'no-store' : 'public, max-age=3600' });
+    response.writeHead(200, { 'Content-Type': contentTypes[fileName], 'Cache-Control': 'no-store' });
     response.end(request.method === 'HEAD' ? undefined : content);
   } catch (error) {
     console.error(error);
