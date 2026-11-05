@@ -225,6 +225,10 @@
             position:relative
           }
 
+          #agenda .event{
+            margin-top:0
+          }
+
           .date{
             text-align:center;
             font-family:"Bricolage Grotesque",sans-serif;
@@ -428,7 +432,7 @@
             border-left:6px solid var(--gold);
             border-radius:14px;
             padding:22px;
-            margin:36px 0 0
+            margin:36px 0 24px
           }
 
           .daily-quote h2{
