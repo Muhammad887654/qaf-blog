@@ -1,0 +1,12 @@
+{
+  "name": "qaf-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Quranic Action Forum blog with account profiles and private member posts",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
