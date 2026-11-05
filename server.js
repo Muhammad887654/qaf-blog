@@ -332,14 +332,23 @@ const server = http.createServer(async (request, response) => {
       response.end();
       return;
     }
-    if (!['/', '/index.html', '/styles.css', '/app.js'].includes(url.pathname)) {
+    if (!['/', '/index.html', '/login', '/login.html', '/styles.css', '/app.js'].includes(url.pathname)) {
       response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       response.end('Halaman tidak ditemukan.');
       return;
     }
-    const fileName = url.pathname === '/' || url.pathname === '/index.html' ? 'index.html' : url.pathname.slice(1);
+    const fileName = url.pathname === '/' || url.pathname === '/index.html'
+      ? 'index.html'
+      : url.pathname === '/login'
+        ? 'login.html'
+        : url.pathname.slice(1);
     const filePath = path.join(publicDirectory, fileName);
-    const contentTypes = { 'index.html': 'text/html; charset=utf-8', 'styles.css': 'text/css; charset=utf-8', 'app.js': 'text/javascript; charset=utf-8' };
+    const contentTypes = {
+      'index.html': 'text/html; charset=utf-8',
+      'login.html': 'text/html; charset=utf-8',
+      'styles.css': 'text/css; charset=utf-8',
+      'app.js': 'text/javascript; charset=utf-8'
+    };
     const content = await fs.readFile(filePath);
     response.writeHead(200, { 'Content-Type': contentTypes[fileName], 'Cache-Control': 'no-store' });
     response.end(request.method === 'HEAD' ? undefined : content);

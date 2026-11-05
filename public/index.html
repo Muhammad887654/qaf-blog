@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>QAF Blog – Quranic Action Forum UM Bandung</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="/styles.css?v=3">
+      <link rel="stylesheet" href="/styles.css?v=4">
 </head>
 <body>
   <header>
@@ -28,7 +28,7 @@
         <p>Blog resmi Quranic Action Forum Universitas Muhammadiyah Bandung. Kajian, catatan riset, dan cerita aksi nyata kami untuk generasi yang berilmu, beramal, dan beraksi.</p>
         <a class="btn" href="#tulisan">Baca tulisan</a>
         <a class="btn ghost" href="#agenda">Lihat agenda</a>
-        <a class="btn ghost" href="#akun">Masuk dan Berkaryalah</a>
+        <a class="btn ghost" href="/login">Masuk dan Berkaryalah</a>
       </div>
       
       <div class="mark">
@@ -45,67 +45,6 @@
         <footer id="daily-quote-author"></footer>
       </blockquote>
       <p id="daily-quote-date" class="meta"></p>
-    </section>
-
-    <section id="akun" class="account-section" aria-labelledby="account-title">
-      <h2 id="account-title">Login</h2>
-      <p class="demo-note">Buat akun dengan email dan kata sandi minimal 10 karakter. Data tulisan tersimpan di backend lokal; sesi berakhir saat server dimulai ulang.</p>
-
-      <form id="login-form" class="account-form">
-        <label for="login-email">Email</label>
-        <input id="login-email" name="email" type="email" autocomplete="username" required>
-        <label for="login-password">Kata sandi</label>
-        <input id="login-password" name="password" type="password" autocomplete="current-password" minlength="10" maxlength="128" required>
-        <div class="account-actions">
-          <button id="login-submit" class="btn" type="submit">Masuk</button>
-          <button id="register-button" class="btn secondary" type="button">Buat akun baru</button>
-        </div>
-      </form>
-
-      <div id="account-view" hidden>
-        <p id="account-status" class="account-status" role="status"></p>
-        <div class="profile-card">
-          <h3>Profil akun</h3>
-          <div class="profile-avatar" aria-label="Foto profil">
-            <img id="profile-avatar-image" alt="Foto profil" hidden>
-            <span id="profile-avatar-initials" aria-hidden="true"></span>
-          </div>
-          <p class="meta">Email: <span id="profile-email"></span></p>
-          <form id="profile-form" class="account-form">
-            <label for="profile-avatar-file">Foto profil</label>
-            <input id="profile-avatar-file" name="avatarFile" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="avatar-help">
-            <small id="avatar-help" class="meta">PNG, JPEG, atau WebP, maksimal 2 MB.</small>
-            <label for="profile-name">Nama tampilan</label>
-            <input id="profile-name" name="displayName" maxlength="80" required>
-            <label for="profile-bio">Bio</label>
-            <textarea id="profile-bio" name="bio" maxlength="300" rows="3"></textarea>
-            <div class="account-actions">
-              <button class="btn secondary" type="submit">Simpan profil</button>
-              <button id="remove-avatar" class="btn secondary" type="button">Hapus foto</button>
-            </div>
-          </form>
-          <p id="profile-status" class="account-status" role="status" aria-live="polite"></p>
-        </div>
-        <form id="post-form" class="account-form">
-          <label for="post-title">Judul tulisan</label>
-          <input id="post-title" name="title" maxlength="120" required>
-          <label for="post-category">Kategori</label>
-          <select id="post-category" name="category">
-            <option value="Kajian">Kajian</option>
-            <option value="Aksi">Aksi nyata</option>
-            <option value="Tentang QAF">Tentang QAF</option>
-          </select>
-          <label for="post-content">Isi tulisan</label>
-          <textarea id="post-content" name="content" maxlength="10000" required></textarea>
-          <div class="account-actions">
-            <button class="btn" type="submit">Simpan tulisan</button>
-            <button id="logout-button" class="btn secondary" type="button">Keluar</button>
-          </div>
-        </form>
-        <h3 style="margin-top:24px">Tulisan Anda</h3>
-        <div id="my-posts" class="my-posts" aria-live="polite"></div>
-      </div>
-      <p id="login-status" class="account-status" role="status" aria-live="polite"></p>
     </section>
 
     <section id="agenda" style="padding-top:0">
@@ -328,6 +267,6 @@
     </div>
   </footer>
 
-      <script src="/app.js?v=3" defer></script>
+      <script src="/app.js?v=4" defer></script>
 </body>
 </html>

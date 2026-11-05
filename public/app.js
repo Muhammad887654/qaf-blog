@@ -21,18 +21,25 @@
         }
 
         function renderDailyQuote(){
+          var quoteText=document.getElementById('daily-quote-text');
+          if(!quoteText) return;
           var today=new Date();
           var year=today.getFullYear();
           var month=today.getMonth();
           var day=today.getDate();
           var dayNumber=Math.floor(Date.UTC(year,month,day)/86400000);
-          document.getElementById('daily-quote-text').textContent=dailyQuotes[dayNumber%dailyQuotes.length];
+          quoteText.textContent=dailyQuotes[dayNumber%dailyQuotes.length];
           document.getElementById('daily-quote-author').textContent='Refleksi QAF';
           document.getElementById('daily-quote-date').textContent=today.toLocaleDateString('id-ID',{
             day:'numeric',
             month:'long',
             year:'numeric'
           });
+        }
+
+        if(!loginForm){
+          renderDailyQuote();
+          return;
         }
 
         function renderAvatar(avatar,displayName,email){

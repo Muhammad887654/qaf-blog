@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Masuk – QAF Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=4">
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <a class="brand sans" href="/">QAF Blog</a>
+      <nav aria-label="Menu halaman masuk">
+        <a href="/">Beranda</a>
+        <a href="/#tulisan">Tulisan</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="akun" class="account-section" aria-labelledby="account-title">
+      <h2 id="account-title">Masuk dan berkaryalah</h2>
+      <p class="demo-note">Masuk atau buat akun untuk mengelola profil dan tulisan Anda.</p>
+
+      <form id="login-form" class="account-form">
+        <label for="login-email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="username" required>
+        <label for="login-password">Kata sandi</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" minlength="10" maxlength="128" required>
+        <div class="account-actions">
+          <button id="login-submit" class="btn" type="submit">Masuk</button>
+          <button id="register-button" class="btn secondary" type="button">Buat akun baru</button>
+        </div>
+      </form>
+
+      <div id="account-view" hidden>
+        <p id="account-status" class="account-status" role="status"></p>
+        <div class="profile-card">
+          <h3>Profil akun</h3>
+          <div class="profile-avatar" aria-label="Foto profil">
+            <img id="profile-avatar-image" alt="Foto profil" hidden>
+            <span id="profile-avatar-initials" aria-hidden="true"></span>
+          </div>
+          <p class="meta">Email: <span id="profile-email"></span></p>
+          <form id="profile-form" class="account-form">
+            <label for="profile-avatar-file">Foto profil</label>
+            <input id="profile-avatar-file" name="avatarFile" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="avatar-help">
+            <small id="avatar-help" class="meta">PNG, JPEG, atau WebP, maksimal 2 MB.</small>
+            <label for="profile-name">Nama tampilan</label>
+            <input id="profile-name" name="displayName" maxlength="80" required>
+            <label for="profile-bio">Bio</label>
+            <textarea id="profile-bio" name="bio" maxlength="300" rows="3"></textarea>
+            <div class="account-actions">
+              <button class="btn secondary" type="submit">Simpan profil</button>
+              <button id="remove-avatar" class="btn secondary" type="button">Hapus foto</button>
+            </div>
+          </form>
+          <p id="profile-status" class="account-status" role="status" aria-live="polite"></p>
+        </div>
+        <form id="post-form" class="account-form">
+          <label for="post-title">Judul tulisan</label>
+          <input id="post-title" name="title" maxlength="120" required>
+          <label for="post-category">Kategori</label>
+          <select id="post-category" name="category">
+            <option value="Kajian">Kajian</option>
+            <option value="Aksi">Aksi nyata</option>
+            <option value="Tentang QAF">Tentang QAF</option>
+          </select>
+          <label for="post-content">Isi tulisan</label>
+          <textarea id="post-content" name="content" maxlength="10000" required></textarea>
+          <div class="account-actions">
+            <button class="btn" type="submit">Simpan tulisan</button>
+            <button id="logout-button" class="btn secondary" type="button">Keluar</button>
+          </div>
+        </form>
+        <h3 style="margin-top:24px">Tulisan Anda</h3>
+        <div id="my-posts" class="my-posts" aria-live="polite"></div>
+      </div>
+      <p id="login-status" class="account-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="in">
+      <div>
+        <b class="sans" style="color:#fff;font-size:1.1rem">Quranic Action Forum</b>
+        <br>Universitas Muhammadiyah Bandung<br>Membentuk generasi berilmu, beramal, dan beraksi nyata.
+      </div>
+      <div>
+        <a href="/">Kembali ke beranda</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/app.js?v=4" defer></script>
+</body>
+</html>
