@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>QAF Blog – Quranic Action Forum UM Bandung</title>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="/styles.css?v=2">
+      <link rel="stylesheet" href="/styles.css?v=3">
 </head>
 <body>
   <header>
@@ -28,7 +28,7 @@
         <p>Blog resmi Quranic Action Forum Universitas Muhammadiyah Bandung. Kajian, catatan riset, dan cerita aksi nyata kami untuk generasi yang berilmu, beramal, dan beraksi.</p>
         <a class="btn" href="#tulisan">Baca tulisan</a>
         <a class="btn ghost" href="#agenda">Lihat agenda</a>
-        <a class="btn ghost" href="#akun">Login / Tulisan Saya</a>
+        <a class="btn ghost" href="#akun">Login</a>
       </div>
       
       <div class="mark">
@@ -37,8 +37,18 @@
   </div>
 
   <main>
+    <section class="daily-quote" aria-labelledby="daily-quote-title">
+      <span class="tag">Inspirasi</span>
+      <h2 id="daily-quote-title">Kutipan hari ini</h2>
+      <blockquote>
+        <p id="daily-quote-text"></p>
+        <footer id="daily-quote-author"></footer>
+      </blockquote>
+      <p id="daily-quote-date" class="meta"></p>
+    </section>
+
     <section id="akun" class="account-section" aria-labelledby="account-title">
-      <h2 id="account-title">Login &amp; tulisan saya</h2>
+      <h2 id="account-title">Login</h2>
       <p class="demo-note">Buat akun dengan email dan kata sandi minimal 10 karakter. Data tulisan tersimpan di backend lokal; sesi berakhir saat server dimulai ulang.</p>
 
       <form id="login-form" class="account-form">
@@ -318,6 +328,6 @@
     </div>
   </footer>
 
-      <script src="/app.js?v=2" defer></script>
+      <script src="/app.js?v=3" defer></script>
 </body>
 </html>

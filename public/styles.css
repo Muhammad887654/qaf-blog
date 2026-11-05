@@ -422,6 +422,42 @@
             color:var(--gold)
           }
 
+          .daily-quote{
+            background:var(--surface);
+            border:1px solid var(--line);
+            border-left:6px solid var(--gold);
+            border-radius:14px;
+            padding:22px;
+            margin:36px 0 0
+          }
+
+          .daily-quote h2{
+            font-size:clamp(1.4rem,3vw,1.8rem);
+            margin-bottom:8px
+          }
+
+          .daily-quote blockquote{
+            margin:12px 0 8px;
+            max-width:42em;
+            font-size:1.15rem
+          }
+
+          .daily-quote blockquote p{
+            margin:0 0 8px
+          }
+
+          .daily-quote blockquote footer{
+            margin:0;
+            padding:0;
+            background:none;
+            color:var(--muted);
+            font:600 .92rem "Bricolage Grotesque",sans-serif
+          }
+
+          .daily-quote .meta{
+            margin:0
+          }
+
           .account-section{
             background:var(--surface);
             border:1px solid var(--line);

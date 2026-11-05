@@ -10,9 +10,29 @@
         var currentUser=null;
         var registrationMode=false;
         var pendingAvatar;
+        var dailyQuotes=[
+          'Ilmu yang mendekatkan kita pada kebaikan bukan hanya untuk disimpan, tetapi untuk diamalkan dan dibagikan.',
+          'Langkah kecil yang dijaga dengan niat baik dapat membuka jalan bagi perubahan besar.',
+          'Belajar dengan rendah hati, berbuat dengan tulus, dan bertumbuh bersama.'
+        ];
 
         function setStatus(element,message){
           element.textContent=message;
+        }
+
+        function renderDailyQuote(){
+          var today=new Date();
+          var year=today.getFullYear();
+          var month=today.getMonth();
+          var day=today.getDate();
+          var dayNumber=Math.floor(Date.UTC(year,month,day)/86400000);
+          document.getElementById('daily-quote-text').textContent=dailyQuotes[dayNumber%dailyQuotes.length];
+          document.getElementById('daily-quote-author').textContent='Refleksi QAF';
+          document.getElementById('daily-quote-date').textContent=today.toLocaleDateString('id-ID',{
+            day:'numeric',
+            month:'long',
+            year:'numeric'
+          });
         }
 
         function renderAvatar(avatar,displayName,email){
@@ -212,6 +232,7 @@
           });
         });
 
+        renderDailyQuote();
         apiRequest('/api/me')
           .then(function(result){return showAccount(result.user);})
           .catch(function(error){
