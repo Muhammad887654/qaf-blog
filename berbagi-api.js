@@ -33,6 +33,18 @@ const upload = multer({
 const supabaseUrl = process.env.SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabaseConfigured = Boolean(supabaseUrl && serviceRoleKey);
+const supabaseWriteConfigured = (() => {
+  if (!serviceRoleKey) return false;
+  if (serviceRoleKey.startsWith('sb_secret_')) return true;
+  if (!serviceRoleKey.startsWith('eyJ')) return false;
+
+  try {
+    const claims = JSON.parse(Buffer.from(serviceRoleKey.split('.')[1], 'base64url').toString('utf8'));
+    return claims.role === 'service_role';
+  } catch {
+    return false;
+  }
+})();
 
 async function supabaseRequest(table, query = {}, options = {}) {
   const url = new URL(`/rest/v1/${table}`, supabaseUrl);
@@ -72,6 +84,22 @@ function requireSupabase(request, response, next) {
   if (!supabaseConfigured) {
     response.status(503).json({
       error: 'API QAF Berbagi belum dikonfigurasi. Isi SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di file .env.'
+    });
+    return;
+  }
+  next();
+}
+
+function requireSupabaseWrite(request, response, next) {
+  if (!supabaseConfigured) {
+    response.status(503).json({
+      error: 'API QAF Berbagi belum dikonfigurasi. Isi SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di file .env.'
+    });
+    return;
+  }
+  if (!supabaseWriteConfigured) {
+    response.status(503).json({
+      error: 'Operasi donasi dan bendahara memerlukan Supabase secret/service-role key di server.'
     });
     return;
   }
@@ -138,7 +166,7 @@ function reportError(response, error) {
 router.get('/api/config', (request, response) => {
   response.json({
     bank: process.env.BANK_INFO || '',
-    donationEnabled: supabaseConfigured
+    donationEnabled: supabaseWriteConfigured
   });
 });
 
@@ -186,7 +214,7 @@ router.get('/api/campaigns/:slug', requireSupabase, async (request, response) =>
   }
 });
 
-router.post('/api/campaigns/:slug/donations', requireSupabase, (request, response, next) => {
+router.post('/api/campaigns/:slug/donations', requireSupabaseWrite, (request, response, next) => {
   upload.single('proof')(request, response, (error) => {
     if (error) {
       response.status(error.status || (error.code === 'LIMIT_FILE_SIZE' ? 413 : 400))
@@ -249,7 +277,7 @@ router.post('/api/campaigns/:slug/donations', requireSupabase, (request, respons
   }
 });
 
-router.get('/api/admin/donations', requireAdmin, requireSupabase, async (request, response) => {
+router.get('/api/admin/donations', requireAdmin, requireSupabaseWrite, async (request, response) => {
   try {
     const data = await supabaseRequest('donations', {
       select: '*, campaigns(title)',
@@ -264,7 +292,7 @@ router.get('/api/admin/donations', requireAdmin, requireSupabase, async (request
   }
 });
 
-router.patch('/api/admin/donations/:id', requireAdmin, requireSupabase, async (request, response) => {
+router.patch('/api/admin/donations/:id', requireAdmin, requireSupabaseWrite, async (request, response) => {
   try {
     if (!['verified', 'rejected'].includes(request.body.status)) {
       response.status(400).json({ error: 'Status donasi tidak valid.' });
@@ -281,7 +309,7 @@ router.patch('/api/admin/donations/:id', requireAdmin, requireSupabase, async (r
   }
 });
 
-router.post('/api/admin/campaigns', requireAdmin, requireSupabase, async (request, response) => {
+router.post('/api/admin/campaigns', requireAdmin, requireSupabaseWrite, async (request, response) => {
   const body = request.body;
   const title = typeof body.title === 'string' ? body.title.trim() : '';
   const slug = typeof body.slug === 'string' ? body.slug.trim() : '';

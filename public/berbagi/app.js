@@ -87,7 +87,9 @@ const QAF = (() => {
           </form>
           <p id="msg" role="status"></p>
         `
-        : '<p class="mu">Donasi belum dapat dikirim karena informasi rekening belum dikonfigurasi.</p>';
+        : `<p class="mu">${config.bank
+          ? 'QRIS tersedia, tetapi pengiriman donasi belum aktif. Server memerlukan Supabase secret/service-role key.'
+          : 'Donasi belum aktif karena konfigurasi rekening dan Supabase server belum lengkap.'}</p>`;
 
       document.title = `${campaign.title} – QAF Berbagi`;
       main.innerHTML = `
