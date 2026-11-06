@@ -1,10 +1,14 @@
 'use strict';
 
+require('dotenv').config();
+
 const crypto = require('node:crypto');
 const fs = require('node:fs/promises');
 const http = require('node:http');
 const path = require('node:path');
 const { promisify } = require('node:util');
+const express = require('express');
+const berbagiApi = require('./berbagi-api');
 
 const scrypt = promisify(crypto.scrypt);
 const host = process.env.HOST || '0.0.0.0';
@@ -12,6 +16,23 @@ const port = Number(process.env.PORT || 3000);
 const publicDirectory = path.join(__dirname, 'public');
 const dataDirectory = path.join(__dirname, 'data');
 const databasePath = path.join(dataDirectory, 'qaf-blog.json');
+const publicFiles = new Map([
+  ['/', 'index.html'],
+  ['/index.html', 'index.html'],
+  ['/login', 'login.html'],
+  ['/login.html', 'login.html'],
+  ['/styles.css', 'styles.css'],
+  ['/app.js', 'app.js'],
+  ['/berbagi', 'berbagi/index.html'],
+  ['/berbagi/', 'berbagi/index.html'],
+  ['/berbagi/index.html', 'berbagi/index.html'],
+  ['/berbagi/campaign.html', 'berbagi/campaign.html'],
+  ['/berbagi/admin.html', 'berbagi/admin.html'],
+  ['/berbagi/app.js', 'berbagi/app.js'],
+  ['/berbagi/style.css', 'berbagi/style.css'],
+  ['/berbagi/logo.png', 'berbagi/logo.png'],
+  ['/berbagi/qris-qaf.jpg', 'berbagi/qris-qaf.jpg']
+]);
 const sessionCookie = 'qaf_session';
 const sessionDuration = 24 * 60 * 60 * 1000;
 const sessions = new Map();
@@ -316,11 +337,20 @@ async function api(request, response, pathname) {
   return sendJson(response, 404, { error: 'Endpoint tidak ditemukan.' });
 }
 
-const server = http.createServer(async (request, response) => {
+const app = express();
+app.disable('x-powered-by');
+app.use((request, response, next) => {
   response.setHeader('X-Content-Type-Options', 'nosniff');
   response.setHeader('X-Frame-Options', 'DENY');
   response.setHeader('Referrer-Policy', 'same-origin');
+  next();
+});
+app.use(berbagiApi);
+app.use((request, response) => {
+  handleRequest(request, response);
+});
 
+async function handleRequest(request, response) {
   try {
     const url = new URL(request.url, `http://${host}`);
     if (url.pathname.startsWith('/api/')) {
@@ -332,25 +362,25 @@ const server = http.createServer(async (request, response) => {
       response.end();
       return;
     }
-    if (!['/', '/index.html', '/login', '/login.html', '/styles.css', '/app.js'].includes(url.pathname)) {
+    const fileName = publicFiles.get(url.pathname);
+    if (!fileName) {
       response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       response.end('Halaman tidak ditemukan.');
       return;
     }
-    const fileName = url.pathname === '/' || url.pathname === '/index.html'
-      ? 'index.html'
-      : url.pathname === '/login'
-        ? 'login.html'
-        : url.pathname.slice(1);
     const filePath = path.join(publicDirectory, fileName);
     const contentTypes = {
-      'index.html': 'text/html; charset=utf-8',
-      'login.html': 'text/html; charset=utf-8',
-      'styles.css': 'text/css; charset=utf-8',
-      'app.js': 'text/javascript; charset=utf-8'
+      '.html': 'text/html; charset=utf-8',
+      '.css': 'text/css; charset=utf-8',
+      '.js': 'text/javascript; charset=utf-8',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg'
     };
     const content = await fs.readFile(filePath);
-    response.writeHead(200, { 'Content-Type': contentTypes[fileName], 'Cache-Control': 'no-store' });
+    response.writeHead(200, {
+      'Content-Type': contentTypes[path.extname(fileName)] || 'application/octet-stream',
+      'Cache-Control': 'no-store'
+    });
     response.end(request.method === 'HEAD' ? undefined : content);
   } catch (error) {
     console.error(error);
@@ -362,7 +392,9 @@ const server = http.createServer(async (request, response) => {
       response.destroy();
     }
   }
-});
+}
+
+const server = http.createServer(app);
 
 server.listen(port, host, () => {
   console.log(`QAF Blog berjalan di http://${host}:${port}`);

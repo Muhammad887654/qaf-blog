@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Source+Serif+4&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/berbagi/style.css">
+    <title>Admin – QAF Berbagi</title>
+  </head>
+  <body data-page="admin">
+    <header>
+      <img src="/berbagi/logo.png" width="34" height="34" alt="" onerror="this.remove()">
+      <a href="/berbagi/">QAF Berbagi</a>
+    </header>
+
+    <main>
+      <h1>Panel Bendahara</h1>
+      <input id="k" type="password" placeholder="Admin key">
+      <button class="btn" onclick="window.load && window.load()">Masuk</button>
+      <h2>Donasi masuk</h2>
+      <div id="ds"></div>
+      <h2>Kampanye baru</h2>
+      <form id="f">
+        <input name="title" placeholder="Judul" required>
+        <input name="category" placeholder="Kategori">
+        <input name="summary" placeholder="Ringkasan">
+        <textarea name="description" placeholder="Deskripsi"></textarea>
+        <input name="target" type="number" placeholder="Target (Rp)" required>
+        <input name="deadline" type="date">
+        <button class="btn">Simpan</button>
+      </form>
+    </main>
+
+    <script src="/berbagi/app.js" defer></script>
+  </body>
+</html>

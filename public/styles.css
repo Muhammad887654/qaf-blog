@@ -229,6 +229,42 @@
             margin-top:0
           }
 
+          .berbagi-card{
+            display:grid;
+            grid-template-columns:1.4fr .6fr;
+            align-items:center;
+            gap:28px;
+            padding:30px;
+            border-radius:16px;
+            background:var(--deep);
+            color:var(--on-deep)
+          }
+
+          .berbagi-card h2{
+            margin-bottom:10px
+          }
+
+          .berbagi-card p{
+            max-width:42em;
+            color:#c9dccd;
+            margin:0 0 20px
+          }
+
+          .berbagi-card .berbagi-kicker{
+            color:var(--gold);
+            font:700 .82rem "Bricolage Grotesque",sans-serif;
+            letter-spacing:.08em;
+            margin-bottom:10px
+          }
+
+          .berbagi-card .berbagi-note{
+            margin:0;
+            padding:18px;
+            border:1px solid rgba(255,255,255,.25);
+            border-radius:12px;
+            font-size:.95rem
+          }
+
           .date{
             text-align:center;
             font-family:"Bricolage Grotesque",sans-serif;
@@ -605,4 +641,8 @@
                 display:flex;
                 gap:8px;
                 align-items:baseline
+              }.berbagi-card{
+                grid-template-columns:1fr;
+                gap:20px;
+                padding:22px
               }}
