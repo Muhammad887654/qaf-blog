@@ -7,8 +7,9 @@ Blog QAF with email/password registration, account profiles, and private member 
 1. Install Node.js 18 or newer.
 2. From this folder, run `npm start`.
 3. Open <http://localhost:3000> for the home page.
-4. Choose **Masuk dan Berkaryalah** to open the separate <http://localhost:3000/login> page.
-5. On the login page, choose **Buat akun baru** and use a password with at least 10 characters.
+4. Choose **Profil QAF** or **Kenali QAF** to view the animated community profile at <http://localhost:3000/profil-qaf>.
+5. Choose **Masuk dan Berkaryalah** to open the separate <http://localhost:3000/login> page.
+6. On the login page, choose **Buat akun baru** and use a password with at least 10 characters.
 
 The home page links to the local QAF Berbagi interface at <http://localhost:3000/berbagi/>. Its campaign, donation, and treasurer API runs in this server and uses Supabase.
 

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>QAF — Profil Komunitas (Animasi 3 Menit)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Poppins:wght@300;500&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+      :root {
+        --bg: #07251f;
+        --bg2: #0d3a30;
+        --gold: #e3c27a;
+        --ink: #f4efe2;
+        --mut: #9fb8ad;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+
+      .ms {
+        gap: 1.2cqh;
+      }
+
+      .ms .num {
+        margin: 0.4cqh 0 0.8cqh;
+        font-size: 20cqh;
+        line-height: 0.85;
+      }
+
+      .ms h2 {
+        line-height: 1.1;
+      }
+
+      .ms .line {
+        margin: 0.8cqh 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #041510;
+        color: var(--ink);
+        font-family: Poppins, system-ui, sans-serif;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px;
+      }
+
+      #stage {
+        position: relative;
+        width: min(100%, calc((100vh - 90px) * 16 / 9));
+        aspect-ratio: 16 / 9;
+        container-type: size;
+        overflow: hidden;
+        border-radius: 12px;
+        background: radial-gradient(ellipse at 50% 40%, var(--bg2), var(--bg) 70%);
+      }
+
+      .pat {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150cqh;
+        height: 150cqh;
+        margin: -75cqh;
+        opacity: 0.13;
+        animation: spin 90s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .sc {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 6cqh 30cqw;
+        gap: 2.4cqh;
+        text-align: center;
+      }
+
+      .sc p {
+        max-width: 40cqw;
+        font-size: 3.1cqh;
+      }
+
+      .sc p.big {
+        font-size: 4.4cqh;
+      }
+
+      .sc p.lbl {
+        font-size: 2.1cqh;
+      }
+
+      .sc .num {
+        font-size: 24cqh;
+      }
+
+      .r {
+        opacity: 0;
+        transform: translateY(3cqh);
+        animation: up 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        animation-delay: var(--d, 0s);
+      }
+
+      @keyframes up {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      h1,
+      h2,
+      .num {
+        margin: 0;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+
+      h1 {
+        color: var(--gold);
+        font-size: 19cqh;
+        letter-spacing: 0.06em;
+      }
+
+      h2 {
+        color: var(--gold);
+        font-size: 5.6cqh;
+      }
+
+      .sc h2 {
+        font-size: 4.2cqh;
+      }
+
+      .sc h1 {
+        font-size: 17cqh;
+      }
+
+      .num {
+        color: transparent;
+        font-size: 30cqh;
+        line-height: 0.9;
+        -webkit-text-stroke: 0.25cqh var(--gold);
+      }
+
+      .num,
+      h1,
+      h2 {
+        font-variant-numeric: lining-nums;
+        font-feature-settings: "lnum" 1;
+      }
+
+      p {
+        max-width: 70cqw;
+        margin: 0;
+        color: var(--ink);
+        font-size: 3.6cqh;
+        font-weight: 300;
+        line-height: 1.5;
+      }
+
+      .big {
+        font-size: 5.2cqh;
+        font-weight: 500;
+      }
+
+      .lbl {
+        color: var(--mut);
+        font-size: 2.1cqh;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+      }
+
+      .gold {
+        color: var(--gold);
+      }
+
+      .line {
+        width: 0;
+        height: 0.3cqh;
+        background: var(--gold);
+        animation: w 1.4s ease forwards;
+        animation-delay: var(--d, 0s);
+      }
+
+      @keyframes w {
+        to {
+          width: 18cqw;
+        }
+      }
+
+      #ui {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(100%, calc((100vh - 90px) * 16 / 9));
+        color: var(--mut);
+        font-size: 13px;
+      }
+
+      button {
+        padding: 6px 14px;
+        border: 1px solid var(--gold);
+        border-radius: 20px;
+        background: none;
+        color: var(--gold);
+        cursor: pointer;
+        font: inherit;
+      }
+
+      #bar {
+        flex: 1;
+        height: 8px;
+        border-radius: 4px;
+        background: #12372e;
+        cursor: pointer;
+      }
+
+      #fill {
+        width: 0;
+        height: 100%;
+        border-radius: 4px;
+        background: var(--gold);
+      }
+
+      #av,
+      #av2 {
+        position: absolute;
+        bottom: 0;
+        width: auto;
+        height: 60cqh;
+        animation: bob 3.2s ease-in-out infinite;
+      }
+
+      #av {
+        left: 1.5cqw;
+      }
+
+      #av2 {
+        right: 1.5cqw;
+        animation-duration: 3.6s;
+      }
+
+      @keyframes bob {
+        50% {
+          transform: translateY(-1cqh);
+        }
+      }
+
+      .eye,
+      .mo {
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .eye {
+        animation: bl 4s infinite;
+      }
+
+      @keyframes bl {
+        0%,
+        94%,
+        100% {
+          transform: scaleY(1);
+        }
+
+        97% {
+          transform: scaleY(0.1);
+        }
+      }
+
+      .f #av .mo,
+      .m #av2 .mo {
+        animation: tk 0.26s ease-in-out infinite alternate;
+      }
+
+      @keyframes tk {
+        from {
+          transform: scaleY(0.6);
+        }
+
+        to {
+          transform: scaleY(3.4);
+        }
+      }
+
+      .head {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: tilt 5s ease-in-out infinite;
+      }
+
+      @keyframes tilt {
+        0%,
+        100% {
+          transform: rotate(-1.5deg);
+        }
+
+        50% {
+          transform: rotate(1.5deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <svg
+        class="pat"
+        viewBox="-100 -100 200 200"
+        fill="none"
+        stroke="#e3c27a"
+        stroke-width=".35"
+        aria-hidden="true"
+      >
+        <g id="st"></g>
+      </svg>
+
+      <svg id="av" viewBox="0 0 200 300" role="img" aria-label="Avatar pemandu QAF">
+        <path d="M15 300C15 225 55 205 100 205C145 205 185 225 185 300Z" fill="#14604b"/>
+        <path d="M78 205L100 245L122 205Z" fill="#f4efe2"/>
+        <circle cx="150" cy="250" r="13" fill="#e3c27a"/>
+        <text
+          x="150"
+          y="254"
+          font-size="9"
+          font-weight="700"
+          text-anchor="middle"
+          fill="#07251f"
+          font-family="Georgia,serif"
+        >QAF</text>
+        <g class="head">
+          <path
+            d="M42 118C42 52 158 52 158 118C158 172 178 200 160 220C130 240 70 240 40 220C22 200 42 172 42 118Z"
+            fill="#f4efe2"
+          />
+          <ellipse cx="100" cy="122" rx="38" ry="46" fill="#f1c9a2"/>
+          <path d="M62 108C70 78 130 78 138 108C120 92 80 92 62 108Z" fill="#f4efe2"/>
+          <ellipse class="eye" cx="86" cy="121" rx="4.2" ry="5.4" fill="#2a1a12"/>
+          <ellipse class="eye" cx="114" cy="121" rx="4.2" ry="5.4" fill="#2a1a12"/>
+          <path
+            d="M78 110Q86 105 94 110M106 110Q114 105 122 110"
+            stroke="#5a3a28"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <circle cx="78" cy="138" r="6" fill="#e89a8a" opacity=".45"/>
+          <circle cx="122" cy="138" r="6" fill="#e89a8a" opacity=".45"/>
+          <ellipse class="mo" cx="100" cy="147" rx="9" ry="3" fill="#8a3a3a"/>
+        </g>
+      </svg>
+
+      <svg id="av2" viewBox="0 0 200 300" role="img" aria-label="Avatar pemandu laki-laki QAF">
+        <path d="M15 300C15 225 55 205 100 205C145 205 185 225 185 300Z" fill="#14604b"/>
+        <path d="M78 205L100 245L122 205Z" fill="#f4efe2"/>
+        <circle cx="50" cy="250" r="13" fill="#e3c27a"/>
+        <text
+          x="50"
+          y="254"
+          font-size="9"
+          font-weight="700"
+          text-anchor="middle"
+          fill="#07251f"
+          font-family="Georgia,serif"
+        >QAF</text>
+        <rect x="88" y="170" width="24" height="38" rx="8" fill="#dba97c"/>
+        <g class="head">
+          <ellipse cx="60" cy="122" rx="7" ry="11" fill="#dba97c"/>
+          <ellipse cx="140" cy="122" rx="7" ry="11" fill="#dba97c"/>
+          <ellipse cx="100" cy="120" rx="40" ry="50" fill="#e6b88c"/>
+          <path d="M58 88C58 50 142 50 142 88L142 98C124 90 76 90 58 98Z" fill="#1b1b1b"/>
+          <rect x="58" y="90" width="84" height="3" fill="#e3c27a"/>
+          <ellipse class="eye" cx="84" cy="121" rx="4.2" ry="5.4" fill="#2a1a12"/>
+          <ellipse class="eye" cx="116" cy="121" rx="4.2" ry="5.4" fill="#2a1a12"/>
+          <path
+            d="M75 110Q84 105 93 110M107 110Q116 105 125 110"
+            stroke="#2a1a12"
+            stroke-width="2.6"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path
+            d="M100 124L96 138L104 138"
+            stroke="#b98a63"
+            stroke-width="1.8"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path d="M72 150Q100 190 128 150Q118 168 100 170Q82 168 72 150Z" fill="#2a1f1a" opacity=".85"/>
+          <ellipse class="mo" cx="100" cy="152" rx="9" ry="3" fill="#8a3a3a"/>
+        </g>
+      </svg>
+
+      <div id="scene"></div>
+    </div>
+
+    <div id="ui">
+      <button id="pb" type="button">Jeda</button>
+      <button id="rb" type="button">Ulang</button>
+      <button id="vb" type="button">Suara: mati</button>
+      <div id="bar"><div id="fill"></div></div>
+      <span id="tm">0:00 / 2:30</span>
+    </div>
+
+    <script>
+      (function () {
+        var pattern = "";
+
+        for (var k = 1; k <= 6; k++) {
+          var size = 16 * k;
+          pattern +=
+            '<rect x="' +
+            -size +
+            '" y="' +
+            -size +
+            '" width="' +
+            2 * size +
+            '" height="' +
+            2 * size +
+            '"/><rect x="' +
+            -size +
+            '" y="' +
+            -size +
+            '" width="' +
+            2 * size +
+            '" height="' +
+            2 * size +
+            '" transform="rotate(45)"/>';
+        }
+
+        document.getElementById("st").innerHTML = pattern;
+      })();
+
+      function m(number, title, description) {
+        return `
+          <div class="sc ms">
+            <div class="lbl r" style="--d:.2s">Misi kami diantaranya</div>
+            <div class="num r" style="--d:.5s">${number}</div>
+            <h2 class="r" style="--d:1.4s">${title}</h2>
+            <div class="line" style="--d:2s"></div>
+            <p class="r" style="--d:2.6s">${description}</p>
+          </div>
+        `;
+      }
+
+      var S = [
+        {
+          d: 18,
+          h: `
+            <div class="sc">
+              <div class="lbl r" style="--d:.5s">Profil Komunitas</div>
+              <h1 class="r" style="--d:1.2s">QAF</h1>
+              <div class="line" style="--d:2.4s"></div>
+              <p class="r big" style="--d:3.2s">Syiar kreatif. <span class="gold">Aksi nyata.</span></p>
+            </div>
+          `,
+        },
+        {
+          d: 27,
+          h: `
+            <div class="sc">
+              <div class="lbl r" style="--d:.3s">Siapa Kami</div>
+              <p class="r big" style="--d:1s">Gerakan <span class="gold">dakwah kampus</span></p>
+              <p class="r" style="--d:4.5s">yang menguatkan Al-Islam dan Kemuhammadiyahan (AIK)</p>
+              <p class="r" style="--d:9s">lewat syiar kreatif dan aksi nyata,</p>
+              <div class="line" style="--d:11.5s"></div>
+              <p class="r big" style="--d:12.5s">
+                kami, Qolbu Action Forum, adalah perpanjangan tangan
+                <span class="gold">LPPAIK</span>
+              </p>
+            </div>
+          `,
+        },
+        {
+          d: 40,
+          h: `
+            <div class="sc">
+              <div class="lbl r" style="--d:.3s">Visi</div>
+              <p class="r big" style="--d:1s">Pelopor gerakan dakwah kampus</p>
+              <p class="r" style="--d:5s">
+                yang menghidupkan Islam dalam setiap aspek kehidupan,<br>
+                berlandaskan <span class="gold">Al-Qur’an dan Sunnah</span>
+              </p>
+              <p class="r" style="--d:12s">membentuk generasi muslim yang</p>
+              <h2 class="r" style="--d:15s">Berilmu · Beramal · Beraksi Nyata</h2>
+              <p class="r big" style="--d:21s">sebagai <span class="gold">rahmatan lil ‘alamin</span></p>
+            </div>
+          `,
+        },
+        {
+          d: 14,
+          h: m(
+            1,
+            "Dakwah yang Hidup",
+            "Menghidupkan dakwah kampus lewat kaderisasi sistematis dan syiar kreatif."
+          ),
+        },
+        {
+          d: 14,
+          h: m(
+            2,
+            "Islam di Setiap Aspek",
+            "Menghidupkan nilai Islam berlandaskan Al-Qur’an dan Sunnah di seluruh aspek kampus."
+          ),
+        },
+        {
+          d: 14,
+          h: m(
+            3,
+            "AIK dalam Setiap Langkah",
+            "Menerapkan Al-Islam dan Kemuhammadiyahan dalam setiap kegiatan."
+          ),
+        },
+        {
+          d: 14,
+          h: m(
+            4,
+            "Generasi Agen Perubahan",
+            "Membentuk generasi berilmu, beramal, dan berakhlak."
+          ),
+        },
+        {
+          d: 14,
+          h: m(
+            5,
+            "Organisasi Berdampak",
+            "Membangun organisasi yang berdaya dan berdampak nyata."
+          ),
+        },
+        {
+          d: 25,
+          h: `
+            <div class="sc">
+              <p class="r" style="--d:.6s">Dengan semua itu, kami ingin mewujudkan generasi yang</p>
+              <p class="r big" style="--d:5.8s">Berilmu.</p>
+              <p class="r big" style="--d:7s">Beramal.</p>
+              <p class="r big gold" style="--d:8.2s">Beraksi nyata.</p>
+              <div class="line" style="--d:10.3s"></div>
+              <h1 class="r" style="--d:11.2s;font-size:16cqh">QAF</h1>
+              <p class="lbl r gold" style="--d:13.8s;font-size:2.6cqh">Qolbu Action Forum</p>
+            </div>
+          `,
+        },
+      ];
+
+      S.forEach(function (scene) {
+        scene.d = (scene.d * 5) / 6;
+      });
+
+      var N = [
+        "Assalamualaikum. Perkenalkan, kami Q A F. Gerakan dakwah kampus yang menyebarkan Islam lewat syiar kreatif dan aksi nyata.",
+        "Yo, gaes! Q A F itu gerakan dakwah kampus. Kita kuatin Al-Islam dan Kemuhammadiyahan, atau A I K, lewat syiar kreatif dan aksi nyata. Perpanjangan tangan L P P A I K.",
+        "Visi kami: menjadi pelopor gerakan dakwah kampus yang menghidupkan Islam dalam setiap aspek kehidupan, berlandaskan Al-Quran dan Sunnah, serta membentuk generasi muslim yang berilmu, beramal, dan beraksi nyata, sebagai rahmatan lil alamin.",
+        "Misi satu, bro. Hidupin dakwah kampus lewat kaderisasi sistematis dan syiar kreatif.",
+        "Misi kedua. Menghidupkan nilai Islam berlandaskan Al-Quran dan Sunnah di seluruh aspek kampus.",
+        "Misi tiga. Terapin A I K di setiap kegiatan. Konsisten, kayak latihan rutin!",
+        "Misi keempat. Membentuk generasi berilmu, beramal, dan berakhlak sebagai agen perubahan.",
+        "Misi lima. Bangun organisasi yang kuat, berdaya, dan berdampak nyata. Gas terus!",
+        "Berilmu, beramal, beraksi nyata. Bersama Q A F, mari menghidupkan dakwah kampus. Wassalamualaikum.",
+      ];
+      var voices = "fmfmfmfmf".split("");
+      var voiceOn = false;
+      var audioSources = [
+        "/audio/profil-qaf-01.mp3",
+        "/audio/profil-qaf-02.mp3",
+        "/audio/profil-qaf-03.mp3",
+        "/audio/profil-qaf-04.mp3",
+        "/audio/profil-qaf-05.mp3",
+        "/audio/profil-qaf-06.mp3",
+        "/audio/profil-qaf-07.mp3",
+        "/audio/profil-qaf-08.mp3",
+        "/audio/profil-qaf-09.mp3",
+      ];
+      var A = audioSources.map(function (source) {
+        var audio = new Audio(source);
+        audio.preload = "auto";
+        return audio;
+      });
+      var AN = [];
+      var ctx = null;
+      var tmr = 0;
+      var MO = [document.querySelector("#av .mo"), document.querySelector("#av2 .mo")];
+      var STG = document.getElementById("stage");
+
+      function setup() {
+        if (ctx) return;
+
+        try {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          A.forEach(function (audio, index) {
+            var source = ctx.createMediaElementSource(audio);
+            var analyser = ctx.createAnalyser();
+            analyser.fftSize = 512;
+            source.connect(analyser);
+            analyser.connect(ctx.destination);
+            AN[index] = analyser;
+          });
+        } catch (error) {
+          ctx = null;
+        }
+
+        if (ctx && ctx.state === "suspended") ctx.resume();
+      }
+
+      function stopAudio() {
+        clearTimeout(tmr);
+        A.forEach(function (audio) {
+          audio.pause();
+        });
+      }
+
+      function speak(index) {
+        stopAudio();
+        if (!voiceOn) return;
+
+        var audio = A[index];
+        var offset = t - start(index) - 0.4;
+
+        if (offset >= 0) {
+          audio.currentTime = Math.min(offset, audio.duration || offset);
+          audio.play().catch(function () {});
+        } else {
+          audio.currentTime = 0;
+          tmr = setTimeout(function () {
+            audio.play().catch(function () {});
+          }, -offset * 1000);
+        }
+      }
+
+      function lip() {
+        var live = voiceOn && AN[cur];
+
+        if (live) {
+          var audio = A[cur];
+          if (play && !audio.paused) {
+            var data = new Uint8Array(AN[cur].fftSize);
+            AN[cur].getByteTimeDomainData(data);
+            var sum = 0;
+
+            for (var k = 0; k < data.length; k++) {
+              var sample = (data[k] - 128) / 128;
+              sum += sample * sample;
+            }
+
+            var level = Math.sqrt(sum / data.length);
+            var activeMouth = voices[cur] === "f" ? 0 : 1;
+            MO[activeMouth].style.transform = "scaleY(" + Math.min(3.6, 0.6 + level * 16) + ")";
+            MO[1 - activeMouth].style.transform = "scaleY(.6)";
+          } else {
+            MO.forEach(function (mouth) {
+              mouth.style.transform = "scaleY(.6)";
+            });
+          }
+
+          STG.className = "";
+        } else {
+          MO.forEach(function (mouth) {
+            mouth.style.transform = "";
+          });
+          STG.className = play && !voiceOn ? voices[cur] : "";
+        }
+      }
+
+      var TOT = S.reduce(function (total, scene) {
+        return total + scene.d;
+      }, 0);
+      var t = 0;
+      var play = true;
+      var cur = -1;
+      var last = 0;
+      var sc = document.getElementById("scene");
+      var pb = document.getElementById("pb");
+      var fill = document.getElementById("fill");
+      var tm = document.getElementById("tm");
+
+      function fmt(seconds) {
+        seconds = Math.floor(seconds);
+        return Math.floor(seconds / 60) + ":" + ("0" + (seconds % 60)).slice(-2);
+      }
+
+      function idx() {
+        var elapsed = 0;
+
+        for (var i = 0; i < S.length; i++) {
+          elapsed += S[i].d;
+          if (t < elapsed) return i;
+        }
+
+        return S.length - 1;
+      }
+
+      function start(index) {
+        var elapsed = 0;
+
+        for (var i = 0; i < index; i++) {
+          elapsed += S[i].d;
+        }
+
+        return elapsed;
+      }
+
+      function show(index) {
+        cur = index;
+        sc.innerHTML = S[index].h;
+        speak(index);
+        var offset = t - start(index);
+
+        sc.querySelectorAll(".r, .line").forEach(function (element) {
+          var style = element.getAttribute("style") || "";
+          var delay = parseFloat(style.split("--d:")[1]) || 0;
+          element.style.animationDelay = (delay * 5) / 6 - offset + "s";
+        });
+      }
+
+      function tick(timestamp) {
+        var delta = (timestamp - last) / 1000;
+        last = timestamp;
+
+        if (play) {
+          t += delta;
+          if (t >= TOT) {
+            t = TOT - 0.01;
+            play = false;
+            pb.textContent = "Putar";
+          }
+        }
+
+        var index = idx();
+        if (index !== cur) show(index);
+
+        lip();
+        fill.style.width = (t / TOT) * 100 + "%";
+        tm.textContent = fmt(t) + " / " + fmt(TOT);
+        requestAnimationFrame(tick);
+      }
+
+      document.getElementById("vb").onclick = function () {
+        voiceOn = !voiceOn;
+        this.textContent = "Suara: " + (voiceOn ? "nyala" : "mati");
+
+        if (voiceOn) {
+          setup();
+          speak(cur);
+        } else {
+          stopAudio();
+        }
+      };
+
+      pb.onclick = function () {
+        if (t >= TOT - 0.1) {
+          t = 0;
+          cur = -1;
+        }
+
+        play = !play;
+        if (voiceOn) {
+          if (play) speak(cur);
+          else stopAudio();
+        }
+        pb.textContent = play ? "Jeda" : "Putar";
+      };
+
+      document.getElementById("rb").onclick = function () {
+        t = 0;
+        cur = -1;
+        play = true;
+        pb.textContent = "Jeda";
+      };
+
+      document.getElementById("bar").onclick = function (event) {
+        var rect = event.currentTarget.getBoundingClientRect();
+        t = Math.max(0, Math.min(TOT - 0.1, ((event.clientX - rect.left) / rect.width) * TOT));
+        cur = -1;
+      };
+
+      requestAnimationFrame(function (timestamp) {
+        last = timestamp;
+        tick(timestamp);
+      });
+    </script>
+  </body>
+</html>
